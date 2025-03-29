@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root
+{
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    max-height: 100vh;
+    overflow-y: hidden;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.active {
+    background-color: #F3EFE5;
+}
+
+*::-webkit-scrollbar {
+    display: none;
+  }
+
+* {
+    z-index: 0;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+li {
+  list-style-type: decimal;
+  list-style: decimal;
+}
+
+.post-grad-plus{
+	color: #000;
+    font-weight: 400;
+    border: 1px solid #000;
+    line-height: 44.5%;
+    margin: 1rem 0 0 10px;
+    padding: 2px;
+    border-radius: 50%;
+    font-size: 30px;
+}
+ /* Hide default cancel button in input search */
+ .search-bar-btn input[type="search"]::-webkit-search-cancel-button {
+      -webkit-appearance: none;
+      appearance: none;
+  }
+  .w-15{
+	width: 15%;
+  }
+  .fixed {
+    position: fixed;
+    inset: 0;
+}
+
+.bg-opacity-50 {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.shadow-lg {
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+.success-popup {
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 15px 25px;
+    border-radius: 5px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000; /* Ensures popup is on top */
+}
+.flex-column{
+	flex-direction: column;
+}
+.text-captalize{
+	text-transform: capitalize;
+}
