@@ -93,8 +93,8 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_TOKEN }}
         run: |
           # Add the EC2 SSH key
-          echo "${{ secrets.EC2_SSH_KEY }}" > ec2_key.pem
-          chmod 600 ec2_key.pem
+          echo "${{ secrets.EC2_SSH_KEY }}" > HRModuleKey.pem
+          chmod 600 HRModuleKey.pem
 
           # Log in to Docker Hub
           ssh -i ec2_key.pem -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << EOF
