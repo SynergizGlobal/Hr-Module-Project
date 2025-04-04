@@ -757,7 +757,7 @@ export default function AddCandidate() {
 
 
 			<form className="w-3/4 h-full flex justify-center items-start py-8" id="candidateDetails" onSubmit={validateForm}>
-				<div className="flex flex-col justify-start items-start w-1/2 min-h-full max-h-full pb-10 overflow-y-scroll">
+				<div className="flex flex-col justify-start items-start w-1/2 min-h-full max-h-full">
 					<div className="font-bold">
 						Enter the candidate's details
 					</div>
@@ -889,12 +889,12 @@ export default function AddCandidate() {
 					</div>
 				</div>
 
-				<div className="flex flex-col justify-start items-start w-1/2 min-h-full max-h-full pb-10 overflow-y-scroll">
+				<div className="flex flex-col justify-start items-start w-1/2 min-h-full max-h-full pb-10">
 					<div className="w-full flex flex-col justify-around items-start">
 						<InterviewPagination interviewsList={interviewsList} setInterviewsList={setInterviewsList} />
 					</div>
 
-					<div className="flex flex-col mt-3 h-128 w-full justify-start items-start overflow-y-scroll overflow-x-hidden">
+					<div className="flex flex-col mt-3 h-128 w-full justify-start items-start overflow-x-hidden">
 						<div className="font-bold">
 							Questionnaire
 						</div>
@@ -936,7 +936,7 @@ export default function AddCandidate() {
 								<input ref={fileInputRef} type="file" className="hidden" onChange={handleFileChange} />
 								<img src={uploadIcon} className="h-8 cursor-pointer" onClick={handleButtonClick} />
 								<div className="flex flex-col justify-around items-start m-2 h-8">
-									<div className="w-full h-1/2">
+									<div className="w-full">
 										{fileName}
 									</div>
 									<div className="w-full h/1-2">
@@ -951,15 +951,15 @@ export default function AddCandidate() {
 							<button
 							type="button"
 							onClick={() => window.history.back()}
-							className="w-1/3 bg-gray-500 hover:bg-gray-600 text-white font-semibold px-4 py-2 rounded-md shadow-md transition duration-300 flex justify-center items-center"
+							className="w-30 bg-gray-500 hover:bg-gray-600 text-white font-semibold pdtb-5 rounded-md shadow-md transition duration-300 flex justify-center items-center"
 						>
 							Back
 						</button>
-								<button type="reset" onClick={resetFields} className="w-1/3 h-10 rounded-md flex justify-center items-center cursor-pointer bg-theme_red">
+								<button type="reset" onClick={resetFields} className="w-30 pdtb-5 rounded-md flex justify-center items-center cursor-pointer bg-theme_red">
 									Reset
 								</button>
 
-								<button type="submit" className="w-1/3 h-10 rounded-md flex justify-center items-center cursor-pointer bg-theme_green">
+								<button type="submit" className="w-30 pdtb-5 rounded-md flex justify-center items-center cursor-pointer bg-theme_green">
 									Submit
 								</button>
 							</div>
