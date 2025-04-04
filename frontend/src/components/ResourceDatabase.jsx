@@ -129,7 +129,7 @@ export default function ResourceDatabase () {
         return <Loading />
 
     return (
-            <div className="w-3/4 flex flex-col justify-start items-start min-h-full max-h-full pb-10 overflow-y-scroll">
+            <div className="w-3/4 flex flex-col justify-start items-start min-h-full max-h-full pb-10 ">
                 <div className="flex w-full justify-between items-center my-2">
                     <div className="w-5/6 flex justify-center items-center mr-1">
                         <SearchBar onSearch={handleSearch} />
