@@ -36,7 +36,7 @@ export default function ResourceElement({ candidate, index }) {
                 {candidate?.candidateStatus?.name || "N/A"}
             </div>
 
-            <div className="w-4/16 text-center max-h-16 overflow-y-scroll">
+            <div className="w-4/16 text-center max-h-16 overflow-y-scroll hidden-scroll">
                 {candidate?.remarks || "No remarks"}
             </div>
 
