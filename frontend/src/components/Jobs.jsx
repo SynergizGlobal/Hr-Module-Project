@@ -128,7 +128,7 @@ export default function Jobs() {
         return <Loading />
 
     return (
-        <div className="w-3/4 flex flex-col justify-start items-start min-h-full max-h-full pb-10 overflow-y-scroll">
+        <div className="w-3/4 flex flex-col justify-start items-start min-h-full max-h-full pb-10 ">
             <div className="flex w-full justify-between items-center font-bold my-2">
                 <div className="text-lg">Jobs List</div>
                 <button onClick={() => { navigate("/jobs/add_job") }}
