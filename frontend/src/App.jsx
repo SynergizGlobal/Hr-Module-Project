@@ -93,9 +93,9 @@ function App() {
             {error}
           </div>
         </motion.div>}
-      <div className="w-screen h-screen min-h-screen max-h-screen bg-secondary font-raleway text-sm">
+      <div className="w-screen min-h-full bg-secondary font-raleway text-sm">
         <Navbar user={user} />
-        <div className="w-full h-full max-h-full flex flex-col justify-start py-2 items-center">
+        <div className="w-full h-full max-h-full flex flex-col justify-start py-2 items-center pdt-80">
           {/* Routes */}
           <Routes>
             <Route path="/" element={user? (employee.userType.id != 2? <Navigate to="/dashboard" /> : <Navigate to="/candidates" />) : <Navigate to="/login" />} />
