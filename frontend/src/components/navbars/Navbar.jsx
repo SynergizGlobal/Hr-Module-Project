@@ -32,7 +32,7 @@ export default function Navbar ()
     }
 
     return (
-        <div className="flex w-full justify-center items-end bg-primary h-16">
+        <div className="flex w-full justify-center items-end bg-primary h-16 position-fixed">
             <div className="flex justify-between items-end w-3/4">
                 <img src={SyntrackLogo}></img>
 
