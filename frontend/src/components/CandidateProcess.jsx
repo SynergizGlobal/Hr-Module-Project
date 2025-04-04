@@ -462,16 +462,8 @@ export default function CandidateProcess() {
 
 	return (
 
-		<div className="flex flex-col w-3/4 h-11/12 justify-start overflow-y-scroll items-center bg-theme_gray drop-shadow-lg rounded-xl my-2 p-3">
-			<div className="w-full flex items-start py-3">
-				<button
-					type="button"
-					onClick={() => window.history.back()}
-					className="bg-gray-500 hover:bg-gray-600 text-white font-semibold px-4 py-2 rounded-lg shadow-md transition duration-300"
-				>
-					Back
-				</button>
-			</div>
+		<div className="flex flex-col w-3/4 h-11/12 justify-start  items-center bg-theme_gray drop-shadow-lg rounded-xl my-2 p-3">
+
 			<div className="flex w-full justify-between items-center">
 				<div className="w-7/12 flex flex-col justify-center items-center">
 					<div className="font-bold w-full text-lg">
@@ -536,9 +528,7 @@ export default function CandidateProcess() {
 						</button>
 					)}
 				</div>
-				<div>
-					<span className="font-bold">Skill Match:</span> 84%
-				</div>
+				
 			</div>
 
 			{questionsList && <QuestionAnswerPagination questionsList={questionsList} answersList={answersList} />}
@@ -826,11 +816,18 @@ export default function CandidateProcess() {
 					{employee.userType.id !== 2 && <button onClick={() => navigate(`/candidates/${candidate.id}/edit`, { state: { candidate } })} className="h-10 w-32 rounded-md flex justify-center items-center cursor-pointer bg-blue-300">
 						Reassign
 					</button>}
-					<div className="flex justify-end items-center">
-						<button type="reset" onClick={handleReset} className="h-10 w-32 rounded-md flex justify-center items-center cursor-pointer bg-theme_red">
+					<div className="flex justify-end items-center w-1/2">
+						<button
+							type="button"
+							onClick={() => window.history.back()}
+							className=" w-15 pdtb-5 bg-gray-500 hover:bg-gray-600 text-white font-semibold rounded-md shadow-md transition duration-300 flex justify-center items-center"
+						>
+							Back
+						</button>
+						<button type="reset" onClick={handleReset} className="pdtb-5 w-15 ml-5 rounded-md flex justify-center items-center cursor-pointer bg-theme_red">
 							Reset
 						</button>
-						<button type="submit" className="h-10 w-32 rounded-md flex justify-center items-center cursor-pointer bg-theme_green ml-5" onClick={validateForm}>
+						<button type="submit" className="pdtb-5 w-15 rounded-md flex justify-center items-center cursor-pointer bg-theme_green ml-5" onClick={validateForm}>
 							Submit
 						</button>
 					</div>
