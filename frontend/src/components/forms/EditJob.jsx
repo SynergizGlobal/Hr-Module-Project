@@ -425,7 +425,7 @@ export default function EditJob () {
                 </motion.div>
             }
             <form className="w-3/4 h-full flex justify-center items-start" id="jobDetails" onSubmit={validateForm}>
-                <div className="flex flex-col justify-start items-start w-2/3 min-h-full max-h-full pb-10 overflow-y-scroll">
+                <div className="flex flex-col justify-start items-start w-2/3 min-h-full max-h-full pb-10 ">
                     <div className="font-bold">
                         Enter the job details
                     </div>
@@ -474,7 +474,7 @@ export default function EditJob () {
                         </div>
                     </div>
 
-                    <div className="flex flex-col h-128 w-full justify-start items-start overflow-y-scroll overflow-x-hidden">
+                    <div className="flex flex-col w-full justify-start items-start  overflow-x-hidden">
                         <div className="font-bold">
                             Questionnaire
                         </div>
@@ -492,7 +492,7 @@ export default function EditJob () {
                     </div>
                 </div>
 
-                <div className="flex flex-col justify-evenly items-center w-1/3 min-h-full max-h-full pb-10 overflow-y-scroll">
+                <div className="flex flex-col justify-evenly items-center w-1/3 min-h-full max-h-full pb-10 ">
                     <div className="flex w-full justify-center items-start">
                         <img src={personIcon} className="w-5/12 p-1" />
                     </div>
@@ -533,10 +533,17 @@ export default function EditJob () {
                     </div>
 
                     <div className="w-full flex justify-around items-center">
-                        <button type="reset" className="w-1/3 h-10 rounded-md flex justify-center items-center cursor-pointer bg-theme_red">
+                    <button
+							type="button"
+							onClick={() => window.history.back()}
+							className=" w-30 pdtb-5 bg-gray-500 hover:bg-gray-600 text-white font-semibold rounded-md shadow-md transition duration-300 flex justify-center items-center"
+						>
+							Back
+						</button>
+                        <button type="reset" className=" w-30 pdtb-5 rounded-md flex justify-center items-center cursor-pointer bg-theme_red">
                             Reset
                         </button>
-                        <button type="submit" className="w-1/3 h-10 rounded-md flex justify-center items-center cursor-pointer bg-theme_green">
+                        <button type="submit" className="w-30 pdtb-5 rounded-md flex justify-center items-center cursor-pointer bg-theme_green">
                             Submit
                         </button>
                     </div>
