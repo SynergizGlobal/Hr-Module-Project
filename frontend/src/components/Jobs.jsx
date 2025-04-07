@@ -162,34 +162,35 @@ export default function Jobs() {
                 </div>
             </div>
 
-            <div className="flex flex-col w-full justify-between items-start bg-theme_gray drop-shadow-lg rounded-xl my-2">
-                <div className="flex w-full justify-center items-center">
-                    <div className="flex w-1/3 justify-center items-center cursor-pointer" style={parseInt(searchParams.get("jobStatus"), 10) === 1 ? { fontWeight: "bold" } : { fontWeight: "inherit" }} onClick={() => { setSearchParamsFunc("jobStatus", 1) }}>
-                        <div className="flex justify-center items-center mx-3 mt-2">Open</div>
-                        <div className="bg-theme_dark rounded-full text-white h-6 w-6 flex justify-center items-center mt-2">{openCount}</div>
-                    </div>
-                    <div id="Closed" className="flex w-1/3 justify-center items-center cursor-pointer" style={parseInt(searchParams.get("jobStatus"), 10) === 2 ? { fontWeight: "bold" } : { fontWeight: "inherit" }} onClick={() => { setSearchParamsFunc("jobStatus", 2) }}>
-                        <div className="flex justify-center items-center mx-3 mt-2">Closed By Client</div>
-                        <div className="bg-theme_dark rounded-full text-white h-6 w-6 flex justify-center items-center mt-2">{closedCount}</div>
-                    </div>
-                    <div id="Hold" className="flex w-1/3 justify-center items-center cursor-pointer" style={parseInt(searchParams.get("jobStatus"), 10) === 3 ? { fontWeight: "bold" } : { fontWeight: "inherit" }} onClick={() => { setSearchParamsFunc("jobStatus", 3) }}>
-                        <div className="flex justify-center items-center mx-3 mt-2">Hold</div>
-                        <div className="bg-theme_dark rounded-full text-white h-6 w-6 flex justify-center items-center mt-2">{holdCount}</div>
-                    </div>
-                    <div id="Hold" className="flex w-1/3 justify-center items-center cursor-pointer" style={parseInt(searchParams.get("jobStatus"), 10) === 4 ? { fontWeight: "bold" } : { fontWeight: "inherit" }} onClick={() => { setSearchParamsFunc("jobStatus", 4) }}>
-                        <div className="flex justify-center items-center mx-3 mt-2">Filled by SG</div>
-                        <div className="bg-theme_dark rounded-full text-white h-6 w-6 flex justify-center items-center mt-2">{filledCount}</div>
-                    </div>
-                </div>
+          <div className="flex flex-col w-full justify-between items-start bg-theme_gray drop-shadow-lg rounded-xl my-2">
+  <div className="flex w-full justify-center items-center">
+    {[ 
+      { id: 1, label: "Open", count: openCount },
+      { id: 2, label: "Closed By Client", count: closedCount },
+      { id: 3, label: "Hold", count: holdCount },
+      { id: 4, label: "Filled by SG", count: filledCount }
+    ].map(({ id, label, count }) => (
+      <div
+        key={id}
+        className={`flex w-1/3 justify-center items-center cursor-pointer rounded-t-xl
+          ${parseInt(searchParams.get("jobStatus"), 10) === id ? "bg-primary text-white font-bold" : "font-normal"}`}
+        onClick={() => setSearchParamsFunc("jobStatus", id)}
+      >
+        <div className="flex justify-center items-center mx-3 mt-2">{label}</div>
+        <div className="bg-theme_dark rounded-full text-white h-6 w-6 flex justify-center items-center mt-2">{count}</div>
+      </div>
+    ))}
+  </div>
 
-                <div className="flex flex-col w-full justify-center items-center px-3 mb-5">
-                    {filteredJobs.filter(job => job.jobStatus?.id === parseInt(searchParams.get('jobStatus'), 10)).map((item) => {
-                        return (
-                            <JobElement job={item} key={item.id} />
-                        );
-                    })}
-                </div>
-            </div>
+  <div className="flex flex-col w-full justify-center items-center px-3 mb-5">
+    {filteredJobs
+      .filter(job => job.jobStatus?.id === parseInt(searchParams.get("jobStatus"), 10))
+      .map((item) => (
+        <JobElement job={item} key={item.id} />
+      ))}
+  </div>
+</div>
+
         </div>
     );
 }
