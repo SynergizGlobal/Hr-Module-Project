@@ -108,7 +108,7 @@ export default function OverlayQuestionInput ({ setShowOverlay, trigger, setTrig
 
     return (
         <div id="overlayBg" className="w-full h-full flex justify-center items-center my-5" onClick={handleClick}>
-            <div id="overlayMain" className="bg-white max-h-full overflow-y-scroll flex w-1/2 justify-center items-center flex-col p-10 rounded-lg drop-shadow-2xl">
+            <div id="overlayMain" className="bg-white max-h-full  flex w-1/2 justify-center items-center flex-col p-10 rounded-lg drop-shadow-2xl">
                  <button 
                 className="absolute top-2 right-4 text-lg font-bold text-gray-600 hover:text-red-500"
                 onClick={() => setShowOverlay(false)}
