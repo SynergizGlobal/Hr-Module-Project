@@ -61,8 +61,7 @@ function App() {
             logoutOnError ("You are not authorised to access this application")
           }
         }
-        else
-          logoutOnError ("Error fetching user")
+     
       }
       catch {
         logoutOnError ("Error fetching user")
