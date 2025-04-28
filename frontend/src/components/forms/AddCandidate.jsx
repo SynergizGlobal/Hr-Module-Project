@@ -918,6 +918,7 @@ export default function AddCandidate() {
 										handleAnswerChange={handleAnswerChange} // ✅ Pass function
 										answerErrors={answerErrors} // ✅ Pass validation errors
 									/>
+									
 								</div>
 							)
 						})}
