@@ -65,8 +65,14 @@ export default function CandidateProcess() {
 	const [cvFormattingStatus, setCvFormattingStatus] = useState(null)
 	const [cvSubmissionDate, setCvSubmissionDate] = useState(null)
 	const [cvSubmissionTime, setCvSubmissionTime] = useState(null)
-	const [graduationQualification, setGraduationQualification] = useState('');
-
+	const [gradEduQuals, setGradEduQuals] = useState(null);
+	const [postGradEduQuals, setPostGradEduQuals] = useState(null);
+	const [gradDiscipline, setGradDiscipline] = useState(null);
+	const [postGradDiscipline, setPostGradDiscipline] = useState(null);
+	const [gradYearOfPassing, setGradYearOfPassing] = useState("");
+	const [postGradYearOfPassing, setPostGradYearOfPassing] = useState("");
+	const [gradModeOfEducation, setGradModeOfEducation] = useState(null);
+	const [postGradModeOfEducation, setPostGradModeOfEducation] = useState(null);
 
 	const [clientInterviewStatus, setClientInterviewStatus] = useState(null)
 	const [clientInterviewRemarks, setClientInterviewRemarks] = useState("")
@@ -76,6 +82,9 @@ export default function CandidateProcess() {
 	const toggleExpanded = () => {
 		setExpanded(!expanded);
 	};
+
+	const isRejected = candidate?.candidateStatus?.name === "Rejected";
+
 
 	const handleInterviewStatusChange = (status) => {
 		const updatedInterviewsList = [...interviewsList]
@@ -157,7 +166,14 @@ export default function CandidateProcess() {
 		setClientInterviewRemarks(candidate.clientInterviewRemarks)
 		setFileName(candidate.resumeFilename)
 		setInterviewsList(initialInterviewsList)
-		setGraduationQualification(candidate.gradEduQuals || "");
+		setGradEduQuals(candidate.graduationQualification || null);
+		setPostGradEduQuals(candidate.postGraduationQualification || null);
+		setGradDiscipline(candidate.graduationDiscipline || null);
+		setPostGradDiscipline(candidate.postGraduationDiscipline || null);
+		setGradYearOfPassing(candidate.graduationYearOfPassing || "");
+		setPostGradYearOfPassing(candidate.postGraduationYearOfPassing || "");
+		setGradModeOfEducation(candidate.graduationModeOfEducation || null);
+		setPostGradModeOfEducation(candidate.postGraduationModeOfEducation || null);
 	}
 
 	useEffect(() => {
@@ -168,9 +184,7 @@ export default function CandidateProcess() {
 				navigate("/login")
 				return
 			}
-			if (candidate) {
-				setGraduationQualification(candidate.gradEduQuals || graduationQualification);
-			}
+
 
 			try {
 				const candidateResponse = await axios.get(import.meta.env.VITE_BACKEND_URL + "candidate/" + id, { withCredentials: true })
@@ -192,7 +206,16 @@ export default function CandidateProcess() {
 					setClientInterviewStatus(candidateResponse.data.clientInterviewStatus)
 					setClientInterviewRemarks(candidateResponse.data.clientInterviewRemarks)
 					setFileName(candidateResponse.data.resumeFilename)
-					setGraduationQualification(candidateResponse.data.gradEduQuals || "");
+					setGradEduQuals(candidateResponse.data.graduationQualification || null);
+					setPostGradEduQuals(candidateResponse.data.postGraduationQualification || null);
+					setGradDiscipline(candidateResponse.data.graduationDiscipline || null);
+					setPostGradDiscipline(candidateResponse.data.postGraduationDiscipline || null);
+					setGradYearOfPassing(candidateResponse.data.graduationYearOfPassing || "");
+					setPostGradYearOfPassing(candidateResponse.data.postGraduationYearOfPassing || "");
+					setGradModeOfEducation(candidateResponse.data.graduationModeOfEducation || null);
+					setPostGradModeOfEducation(candidateResponse.data.postGraduationModeOfEducation || null);
+
+
 				}
 				else {
 					errorDispatch({ type: 'ERROR', payload: "Error getting candidate's details" })
@@ -300,6 +323,8 @@ export default function CandidateProcess() {
 	const validateForm = async (e) => {
 		e.preventDefault()
 
+
+
 		if (technicalScreeningRemarks.length > 500) {
 			errorDispatch({ type: 'ERROR', payload: "Screening Remarks are too long" })
 			return
@@ -326,6 +351,12 @@ export default function CandidateProcess() {
 		}
 
 		let candidateStatus = null;
+
+		if (candidate?.candidateStatus?.name === "Rejected") {
+			errorDispatch({ type: 'ERROR', payload: "This candidate has already been rejected. Status cannot be updated." });
+			return;
+		}
+
 		if (cvFormattingStatus.id === 1) {
 			candidateStatus = { id: 1, name: "Passed" }
 		}
@@ -362,6 +393,12 @@ export default function CandidateProcess() {
 				candidateStatus = { id: 4, name: "On Hold" }
 			}
 		}
+		
+		for (const answer of answersList) {
+	await axios.post(import.meta.env.VITE_BACKEND_URL + "answer/add", answer, { withCredentials: true })
+		.catch(() => errorDispatch({ type: 'ERROR', payload: "Error saving questionnaire answers" }));
+}
+
 
 		let file = null
 		if (fileInputRef.current)
@@ -371,6 +408,7 @@ export default function CandidateProcess() {
 		}
 
 		try {
+
 			const response = await axios.post(import.meta.env.VITE_BACKEND_URL + "candidate/add",
 				{
 					id: candidate.id,
@@ -378,14 +416,14 @@ export default function CandidateProcess() {
 					lastName: candidate.lastName,
 					location: candidate.location,
 					totalWorkExperience: candidate.totalWorkExperience,
-					graduationQualification: candidate.gradEduQuals,
-					postGraduationQualification: candidate.postGradEduQuals,
-					graduationDiscipline: candidate.gradDiscipline,
-					postGraduationDiscipline: candidate.postGradDiscipline,
-					graduationYearOfPassing: candidate.gradYearOfPassing,
-					postGraduationYearOfPassing: candidate.postGradYearOfPassing,
-					graduationModeOfEducation: candidate.gradModeOfEducation,
-					postGraduationModeOfEducation: candidate.postGradModeOfEducation,
+					graduationQualification: gradEduQuals,
+					postGraduationQualification: postGradEduQuals,
+					graduationDiscipline: gradDiscipline,
+					postGraduationDiscipline: postGradDiscipline,
+					graduationYearOfPassing: gradYearOfPassing,
+					postGraduationYearOfPassing: postGradYearOfPassing,
+					graduationModeOfEducation: gradModeOfEducation,
+					postGraduationModeOfEducation: postGradModeOfEducation,
 					phoneNo: candidate.phoneNo,
 					email: candidate.email,
 					currentCTC: candidate.currentCTC,
@@ -470,13 +508,17 @@ export default function CandidateProcess() {
 						{candidate.firstName + " " + candidate.lastName}
 					</div>
 					<div className="w-full">
-						{candidate.postGraduationQualification && candidate.postGraduationYearOfPassing && candidate.postGraduationQualification.name + ", " + candidate.postGraduationYearOfPassing}
+						{candidate?.postGraduationQualification?.name
+							? `${candidate.postGraduationQualification.name}, ${candidate.postGraduationYearOfPassing}`
+							: "No Post Graduation Details"}
 					</div>
+
 					<div className="w-full">
 						{candidate?.graduationQualification?.name
-							? candidate.graduationQualification.name + ", " + candidate.graduationYearOfPassing
+							? `${candidate.graduationQualification.name}, ${candidate.graduationYearOfPassing}`
 							: "No Graduation Details"}
 					</div>
+
 
 
 					<div className="w-full flex justify-between items-center my-1">
@@ -528,7 +570,7 @@ export default function CandidateProcess() {
 						</button>
 					)}
 				</div>
-				
+
 			</div>
 
 			{questionsList && <QuestionAnswerPagination questionsList={questionsList} answersList={answersList} />}
@@ -597,8 +639,17 @@ export default function CandidateProcess() {
 							Technical Screening
 						</div>
 						<div className="flex justify-around items-center mt-1">
-							<InputRadio id="candidateStatus" label="Status: " list={statusList} wrap={true} setFunction={setTechnicalScreeningStatus} value={technicalScreeningStatus} disabled={interviewsList[0]?.interviewStatus?.id !== 3 &&
-								(employee?.userType?.id === 2 && employee?.id !== candidate?.employee?.id)} />
+							<InputRadio
+								id="candidateStatus"
+								label="Status: "
+								list={statusList}
+								wrap={true}
+								setFunction={setTechnicalScreeningStatus}
+								value={technicalScreeningStatus}
+								disabled={isRejected || (interviewsList[0]?.interviewStatus?.id !== 3 &&
+									(employee?.userType?.id === 2 && employee?.id !== candidate?.employee?.id))}
+							/>
+
 						</div>
 					</div>
 					<div className="flex flex-col justify-center items-start w-full">
