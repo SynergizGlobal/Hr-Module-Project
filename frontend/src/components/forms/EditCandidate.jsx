@@ -31,6 +31,7 @@ export default function EditCandidate() {
 	const { candidate } = navLocation.state || null
 	const fileInputRef = useRef(null);
 
+
 	/* Form data */
 	const [firstName, setFirstName] = useState(candidate.firstName)
 	const [lastName, setLastName] = useState(candidate.lastName)
@@ -52,7 +53,7 @@ export default function EditCandidate() {
 	const [location, setLocation] = useState(candidate.location)
 	const [remarks, setRemarks] = useState(candidate.remarks)
 	const ongoingStatus = { id: 3, name: "Ongoing" }
-	const [candidateStatus, setCandidateStatus] = useState(candidate.candidateStatus)
+	const [candidateStatus, setCandidateStatus] = useState(ongoingStatus)
 	const [fileName, setFileName] = useState(candidate.resumeFilename)
 	const [technicalScreeningTime, setTechnicalScreeningTime] = useState(candidate.technicalScreeningTime)
 	const [technicalScreeningStatus, setTechnicalScreeningStatus] = useState(candidate.technicalScreeningStatus)
@@ -85,6 +86,8 @@ export default function EditCandidate() {
 	const [initialInterviewsList, setInitialInterviewsList] = useState([])
 	const [interviewsList, setInterviewsList] = useState([])
 	const { isOpen, employeeDispatch } = useEmployeeContext();
+	const [answerErrors, setAnswerErrors] = useState({});
+
 
 
 	// Overlay Data
@@ -93,6 +96,7 @@ export default function EditCandidate() {
 	const [overlayLabel, setOverlayLabel] = useState(null)
 	const [overlayUrl, setOverlayUrl] = useState(null)
 	const [maxLen, setMaxLen] = useState(0)
+
 
 	// Question Overlay Data
 	const [showQuestionOverlay, setShowQuestionOverlay] = useState(false)
@@ -108,6 +112,23 @@ export default function EditCandidate() {
 		setPostGradYearOfPassing("");
 		setPostGradDiscipline("");
 		setPostGradModeOfEducation("");
+	};
+	
+		const handleAnswerChange = (e, id) => {
+		setAnswersList(prevAnswersList =>
+			prevAnswersList.map((item) =>
+				item.question.questionId === id ? { ...item, answer: e.target.value } : item
+			)
+		);
+
+		// Also clear errors dynamically when user types
+		setAnswerErrors(prevErrors => {
+			const updatedErrors = { ...prevErrors };
+			if (e.target.value.trim() !== "") {
+				delete updatedErrors[id]; // Remove error if user provides an answer
+			}
+			return updatedErrors;
+		});
 	};
 
 	useEffect(() => {
@@ -415,16 +436,16 @@ export default function EditCandidate() {
 					employee: job.interviewer,
 					resumeFilename: fileName,
 					technicalScreeningTime: technicalScreeningTime,
-					technicalScreeningStatus: technicalScreeningStatus,
+					technicalScreeningStatus: ongoingStatus,
 					technicalScreeningRemarks: technicalScreeningRemarks,
 					technicalInterviewRemarks: technicalInterviewRemarks,
 					ctcApprovalStatus: ctcApprovalStatus,
 					ctcNegotiationRemarks: ctcNegotiationRemarks,
 					ctcUpdateDate: ctcUpdateDate,
 					ctcFinal: ctcFinal,
-					clientInterviewStatus: clientInterviewStatus,
+					clientInterviewStatus: ongoingStatus,
 					clientInterviewRemarks: clientInterviewRemarks,
-					cvFormattingStatus: cvFormattingStatus,
+					cvFormattingStatus: ongoingStatus,
 					cvFormattingRemarks: cvFormattingRemarks,
 					cvSubmissionDate: cvSubmissionDate,
 					cvSubmissionTime: cvSubmissionTime
@@ -680,11 +701,11 @@ export default function EditCandidate() {
 		setAnswersList(updatedAnswersList);
 	}
 
-	const handleAnswerChange = (e, id) => {
+	/*const handleAnswerChange = (e, id) => {
 		const updatedAnswersList = answersList.map((item) =>
 			item.question.questionId === id ? { ...item, answer: e.target.value } : item)
 		setAnswersList(updatedAnswersList)
-	}
+	}*/
 
 	const handleButtonClick = () => {
 		fileInputRef.current.click();
@@ -757,7 +778,7 @@ export default function EditCandidate() {
 
 	return (
 		<AnimatePresence>
-		
+
 			{showOverlay &&
 				<motion.div key={overlayId ? overlayId : "addOverlay"} className="absolute z-10 top-0 left-0 w-full h-full backdrop-blur-sm" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
 					<OverlayInput id={overlayId} label={overlayLabel} overlayUrl={overlayUrl} setShowOverlay={setShowOverlay} trigger={trigger} setTrigger={setTrigger} maxLen={maxLen} />
@@ -947,26 +968,29 @@ export default function EditCandidate() {
 							Questionnaire
 						</div>
 						{/* Display error message if no questions are added */}
-						{Array.isArray(selectedQuestions) && selectedQuestions.length > 0 ? (
-							selectedQuestions.map((item, i) => {
-								if (!item || !item.questionId) return null;  // <-- Prevents errors
-								return (
-									<div className="w-full mr-2" key={item.questionId}>
-										<QuestionAnswerInput
-											question={item}
-											index={i}
-											selectedQuestions={selectedQuestions}
-											setSelectedQuestions={setSelectedQuestions}
-											setFunction={handleAnswerChange}
-											answersList={answersList}
-											setAnswersList={setAnswersList}
-										/>
-									</div>
-								);
-							})
-						) : (
-							<div className="text-red-500 text-sm">No questions selected.</div>
+						{questionnaireError && (
+							<div className="text-red-500 text-sm">{questionnaireError}</div>
 						)}
+						{selectedQuestions && selectedQuestions.map((item, i) => {
+							return (
+								<div className="w-full mr-2" key={item.questionId}>
+									<QuestionAnswerInput
+										key={item.questionId}
+										question={item}
+										index={i}
+										value={answersList.find(a => a.question.questionId === item.questionId)?.answer || ""}
+										setFunction={handleAnswerChange}
+										selectedQuestions={selectedQuestions}
+										setSelectedQuestions={setSelectedQuestions}
+										answersList={answersList}
+										setAnswersList={setAnswersList}
+										handleAnswerChange={handleAnswerChange} // ✅ Pass function
+										answerErrors={answerErrors} // ✅ Pass validation errors
+									/>
+
+								</div>
+							)
+						})}
 						<div className="w-full flex justify-center items-center">
 							<img src={addImage} className="h-5 cursor-pointer" onClick={addQuestion} />
 						</div>
