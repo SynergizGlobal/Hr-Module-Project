@@ -32,6 +32,7 @@ public class DefaultQuestionnaire {
 	public void setJob(Job job) {
 		this.job = job;
 	}
+	
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
